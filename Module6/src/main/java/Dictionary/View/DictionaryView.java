@@ -88,13 +88,14 @@ public class DictionaryView extends Application {
         definitionField.setPromptText("Enter word definition");
 
         Button submitBtn = new Button("Add Word");
-        Label info = new Label("Fill both fields"); // for status messages
+        Label info = new Label(); // for status messages
 
         formWrapper.getChildren().addAll(
             new Label("Add a new word to the dictionary"),
             wordField,
             definitionField,
-            submitBtn
+            submitBtn,
+            info
         );
 
         Scene scene = new Scene(formWrapper);
