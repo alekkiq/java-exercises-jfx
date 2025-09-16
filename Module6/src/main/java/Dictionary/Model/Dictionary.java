@@ -16,10 +16,13 @@ public class Dictionary {
     }
 
     public String getDefinition(String word) {
-        if (!this.dictionary.containsKey(word)) {
-            return "Definition for \"" + word + "\" not found.";
-        }
+        if (!this.dictionary.containsKey(word))
+            return null;
 
         return this.dictionary.get(word);
+    }
+
+    public boolean containsKey(String key) {
+        return this.dictionary.containsKey(key);
     }
 }

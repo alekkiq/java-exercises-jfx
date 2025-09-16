@@ -18,4 +18,8 @@ public class DictionaryController {
     public String getDefinition(String kw) {
         return this.dictionary.getDefinition(kw);
     }
+
+    public boolean wordExists(String w) {
+        return this.dictionary.containsKey(w);
+    }
 }

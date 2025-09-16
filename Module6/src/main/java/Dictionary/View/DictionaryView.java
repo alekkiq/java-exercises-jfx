@@ -45,7 +45,6 @@ public class DictionaryView extends Application {
         Scene scene = new Scene(pane);
         stage.setTitle("Dictionary");
         stage.setScene(scene);
-        stage.show();
 
         // search btn event
         searchBtn.setOnAction((event) -> {
@@ -56,13 +55,22 @@ public class DictionaryView extends Application {
             }
 
             String definition = this.controller.getDefinition(searchWord);
-            this.message.setText(searchWord.toUpperCase() + "; " + definition);
+            String output = searchWord.toUpperCase();
+
+            if (definition == null)
+                output += " has no definition yet";
+            else
+                output += "; " + definition;
+
+            this.message.setText(output);
         });
 
         // add word btn event
         addWordBtn.setOnAction((event) -> {
             this.wordAddForm();
         });
+
+        stage.show();
     }
 
     public void wordAddForm() {
@@ -80,7 +88,7 @@ public class DictionaryView extends Application {
         definitionField.setPromptText("Enter word definition");
 
         Button submitBtn = new Button("Add Word");
-        Label info = new Label(); // for status messages
+        Label info = new Label("Fill both fields"); // for status messages
 
         formWrapper.getChildren().addAll(
             new Label("Add a new word to the dictionary"),
@@ -91,20 +99,30 @@ public class DictionaryView extends Application {
 
         Scene scene = new Scene(formWrapper);
         prompt.setScene(scene);
-        prompt.showAndWait();
 
         submitBtn.setOnAction((event) -> {
-            System.out.println("clicked");
             String newWord = wordField.getText();
             String definition = definitionField.getText();
 
+            // invalid addition
             if (newWord == null || newWord.isEmpty() || definition == null || definition.isEmpty()) {
                 info.setText("Both fields are required.");
                 return;
             }
 
+            System.out.println("haloo");
+            // word already exists
+            if (this.controller.wordExists(newWord)) {
+                info.setText("Definition for word already exists.");
+                return;
+            }
+
+            System.out.println("haloo2");
+
             this.controller.addWord(newWord, definition);
             prompt.close();
         });
+
+        prompt.showAndWait();
     }
 }
